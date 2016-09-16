@@ -5,16 +5,16 @@ angular.module('LunchCheck', [])
 
 .controller('LunchCheckController', LunchCheckController);
 
-LunchCheckController.$inject = ['$scope']
+LunchCheckController.$inject = ['$scope'];
 function LunchCheckController($scope) {
   $scope.lunchList;
 
   $scope.checkLunch = function() {
-    parts = $lunchList.split(',');
-    if (parts > 3) {
-      $scope.$message = 'Too much!'
+    var parts = $scope.lunchList.split(',');
+    if (parts.length > 3) {
+      $scope.message = 'Too much!';
     } else {
-      $scope.$message = 'Eat up!'
+      $scope.message = 'Eat up!';
     }
   }
 }
