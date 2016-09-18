@@ -7,7 +7,7 @@ angular.module('LunchCheck', [])
 
 LunchCheckController.$inject = ['$scope'];
 function LunchCheckController($scope) {
-  $scope.lunchList;
+  $scope.lunchList = '';
 
   $scope.checkLunch = function() {
     var parts = $scope.lunchList.split(',');
@@ -19,9 +19,12 @@ function LunchCheckController($scope) {
         nonEmptyItems++;
       }
     }
+    $scope.messageColor = 'red';
     if (nonEmptyItems > 3) {
       $scope.message = 'Too much!';
-      $scope.messageColor = 'red';
+
+    } else if (nonEmptyItems == 0) {
+      $scope.message = "Please enter data first";
     } else {
       $scope.message = 'Eat up!';
       $scope.messageColor = 'green';
