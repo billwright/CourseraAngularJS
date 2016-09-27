@@ -1,68 +1,42 @@
 (function () {
 'use strict';
 
-angular.module('DualShoppingListApp', [])
-.controller('ToBuyShoppingController', ToBuyShoppingController)
-.controller('AlreadyBoughtShoppingController', AlreadyBoughtShoppingController)
-.service('ShoppingListCheckOffService', ShoppingListCheckOffService);
+angular.module('NarrowItDownApp', [])
+.controller('NarrowItDownController', NarrowItDownController)
+.service('MenuSearchService', MenuSearchService)
+.constant('ApiBasePath', "http://davids-restaurant.herokuapp.com");
 
-function ShoppingListCheckOffService() {
-  var service = this;
 
-  var needToBuyItems = [
-  {
-    name: "Rope",
-    quantity: "1"
-  },
-  {
-    name: "Harness",
-    quantity: "2"
-  },
-  {
-    name: "Cams",
-    quantity: "10"
-  },
-  {
-    name: "Slings",
-    quantity: "12"
-  },
-  {
-    name: "Carabiner",
-    quantity: "25"
-  },
-];
-  var boughtItems = [];
+NarrowItDownController.$inject = ['MenuSearchService'];
+function NarrowItDownController(MenuSearchService) {
+  var controller = this;
 
-  service.buyItem = function (needToBuyItemIndex) {
-    var item = needToBuyItems.splice(needToBuyItemIndex, 1);
-    boughtItems.push(item[0]);
-  }
-
-  service.getNeedToBuyItems = function () {
-    return needToBuyItems;
-  }
-
-  service.getBoughtItems = function () {
-    return boughtItems;
+  controller.searchForItems = function() {
+    console.log("Searching for term: " + controller.searchTerm);
+    controller.found = MenuSearchService.getMatchedMenuItems(controller.searchTerm);
   }
 }
 
-ToBuyShoppingController.$inject = ['ShoppingListCheckOffService'];
-function ToBuyShoppingController(ShoppingListCheckOffService) {
-  var toBuyList = this;
-
-  toBuyList.items = ShoppingListCheckOffService.getNeedToBuyItems();
-
-  toBuyList.buyItem =  function(index) {
-    ShoppingListCheckOffService.buyItem(index);
-  }
-}
-
-AlreadyBoughtShoppingController.$inject = ['ShoppingListCheckOffService'];
-function AlreadyBoughtShoppingController(ShoppingListCheckOffService) {
-  var alreadyBoughtList = this;
-
-  alreadyBoughtList.items = ShoppingListCheckOffService.getBoughtItems();
-}
-
+console.log("In ifft...");
 })();
+
+MenuSearchService.$inject = ['$http', 'ApiBasePath'];
+function MenuSearchService($http, ApiBasePath) {
+  this.getMatchedMenuItems = function(searchTerm) {
+    var response = $http({
+      method: "GET",
+      url: (ApiBasePath + "/menu_items.json")
+    });
+
+    return response.then(function (result) {
+    // process result and only keep items that match
+    var allItems = result.data;
+    var matchedItems = allItems;
+
+    // return processed items
+    return matchedItems;
+    });
+  }
+}
+
+console.log("In angular file...");
