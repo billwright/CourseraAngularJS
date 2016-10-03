@@ -1,9 +1,11 @@
-<ul>
-  <li ng-repeat='item in items'>
-    {{ item.name }}, {{ item.short_name }}, {{ item.description }}
-    <button class="remove-button" ng-click='onRemove({index: $index})'>Don't want this one!</button>
-  </li>
-</ul>
-<div class="notice-message" ng-if="items.length == 0">
-  Nothing found
+<div id="container">
+  <ul>
+    <li ng-repeat='item in items'>
+      {{ item.name }}, {{ item.short_name }}, {{ item.description }}
+      <button class="remove-button" ng-click='onRemove({index: $index})'>Don't want this one!</button>
+    </li>
+  </ul>
+  <div class="notice-message" ng-if="items.length == 0">
+    <h4>Nothing found</h4>
+  </div>
 </div>

@@ -1,3 +1,6 @@
+#container {
+  width:960px;
+}
 h1 {
   margin-bottom: 30px;
 }
@@ -11,7 +14,10 @@ input[type="text"] {
 }
 .notice-message {
   float: left;
-  display: inline-block;
+  /*display: inline-block;*/
+  margin-left: 20px;
+  color: red;
+  width: 760px;
 }
 ul {
   float: left;
