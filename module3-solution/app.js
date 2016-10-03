@@ -24,12 +24,10 @@ function FoundItemsDirective() {
 
 MenuSearchService.$inject = ['$http', 'ApiBasePath'];
 function MenuSearchService($http, ApiBasePath) {
-  console.log("Starting to run MenuSearchService function...");
 
   var service = this;
 
   service.getMatchedMenuItems = function(searchTerm) {
-    console.log("Running the getMatchedMenuItems function...");
 
     var responsePromise = $http({
       method: "GET",
@@ -49,34 +47,28 @@ function MenuSearchService($http, ApiBasePath) {
       return matchedItems;
     });
   }
-  console.log("Done running MenuSearchService function");
 }
 
-console.log("After defining service...");
 
 NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService) {
-  console.log("Running the NarrowItDownController function...");
   var controller = this;
 
   controller.searchTerm = '';
   controller.searchForItems = function() {
-    console.log("Running the searchForItems function on the NarrowItDownController...");
     console.log("Searching for term: " + controller.searchTerm);
-    MenuSearchService.getMatchedMenuItems(controller.searchTerm).then(function(results) {
-      console.log("results is ", results);
-      controller.found = results;
-    });
-    console.log("controller.found is now: ", controller.found);
+    if (controller.searchTerm == '') {
+      controller.found = [];
+    } else {
+      MenuSearchService.getMatchedMenuItems(controller.searchTerm).then(function(results) {
+        controller.found = results;
+      });
+  }
   }
 
   controller.removeItem = function(index) {
-    console.log("found list is ", controller.found);
     controller.found.splice(index, 1);
-    console.log("found list after splice is ", controller.found);
   }
-  console.log("Done running the NarrowItDownController function...");
 }
 
-console.log("Just before running function...");
 })();
